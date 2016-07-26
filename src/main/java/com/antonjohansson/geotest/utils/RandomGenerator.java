@@ -68,17 +68,6 @@ public class RandomGenerator
     }
 
     /**
-     * Gets a random creation date, between <b>now</b> and <b>two weeks</b> back.
-     *
-     * @return Returns a random creation date.
-     */
-    public ZonedDateTime getCreationDate()
-    {
-        int milliseconds = random.nextInt(TWO_WEEKS_IN_MILLISECONDS);
-        return DateUtils.now().plus(-milliseconds, MILLIS);
-    }
-
-    /**
      * Gets a random latitude value.
      *
      * @return Returns a random latitude value.
@@ -91,6 +80,17 @@ public class RandomGenerator
                 .multiply(MULTIPLIER)
                 .multiply(LATITUDE_BOUNDARY)
                 .subtract(LATITUDE_BOUNDARY);
+    }
+
+    /**
+     * Gets a random creation date, between <b>now</b> and <b>two weeks</b> back.
+     *
+     * @return Returns a random creation date.
+     */
+    public ZonedDateTime getCreationDate()
+    {
+        int milliseconds = random.nextInt(TWO_WEEKS_IN_MILLISECONDS);
+        return DateUtils.now().plus(-milliseconds, MILLIS);
     }
 
     /**
