@@ -13,10 +13,12 @@ import java.util.Random;
 public class RandomGenerator
 {
     private static final int COORDINATE_SCALE = 7;
-    private static final int TWO_WEEKS_IN_MILLISECONDS = 60 * 60 * 24 * 14 * 1000;
     private static final BigDecimal LONGITUDE_BOUNDARY = new BigDecimal(180);
     private static final BigDecimal LATITUDE_BOUNDARY = new BigDecimal(90);
     private static final BigDecimal MULTIPLIER = new BigDecimal(2);
+    private static final int TWO_WEEKS_IN_MILLISECONDS = 60 * 60 * 24 * 14 * 1000;
+    private static final int VALUE_LENGTH = 20;
+    private static final String VALUE_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
     private final Random random;
 
@@ -89,5 +91,20 @@ public class RandomGenerator
                 .multiply(MULTIPLIER)
                 .multiply(LATITUDE_BOUNDARY)
                 .subtract(LATITUDE_BOUNDARY);
+    }
+
+    /**
+     * Gets a random string value.
+     */
+    public String getValue()
+    {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < VALUE_LENGTH; i++)
+        {
+            int index = random.nextInt(VALUE_CHARACTERS.length());
+            char character = VALUE_CHARACTERS.charAt(index);
+            builder.append(character);
+        }
+        return builder.toString();
     }
 }
