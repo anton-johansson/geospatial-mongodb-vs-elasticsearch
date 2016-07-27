@@ -1,6 +1,7 @@
 package com.antonjohansson.geotest.docker;
 
 import com.spotify.docker.client.DockerClient;
+import com.spotify.docker.client.exceptions.DockerException;
 import com.spotify.docker.client.messages.ContainerInfo;
 
 /**
@@ -29,13 +30,20 @@ public class DockerContainer implements AutoCloseable
     }
 
     @Override
-    public void close() throws Exception
+    public void close()
     {
-        ContainerInfo info = client.inspectContainer(containerId);
-        if (info.state().running())
+        try
         {
-            client.killContainer(containerId);
+            ContainerInfo info = client.inspectContainer(containerId);
+            if (info.state().running())
+            {
+                client.killContainer(containerId);
+            }
+            client.removeContainer(containerId);
         }
-        client.removeContainer(containerId);
+        catch (DockerException | InterruptedException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 }

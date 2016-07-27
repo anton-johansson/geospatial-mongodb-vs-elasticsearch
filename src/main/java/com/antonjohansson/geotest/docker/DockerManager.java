@@ -29,17 +29,16 @@ public class DockerManager implements AutoCloseable
     }
 
     /**
-     * Gets a new container with given {@code image}.
+     * Gets a new container with given {@code name} and {@code config}.
+     *
+     * @param name The name of the container.
+     * @param config The configuration for the container.
      */
-    public DockerContainer getContainer(String image)
+    public DockerContainer getContainer(String name, ContainerConfig config)
     {
-        ContainerConfig config = ContainerConfig.builder()
-                .image(image)
-                .build();
-
         try
         {
-            ContainerCreation creationInfo = client.createContainer(config, image);
+            ContainerCreation creationInfo = client.createContainer(config, name);
             String containerId = creationInfo.id();
             client.startContainer(containerId);
             return new DockerContainer(client, containerId);
@@ -51,7 +50,7 @@ public class DockerManager implements AutoCloseable
     }
 
     @Override
-    public void close() throws Exception
+    public void close()
     {
         client.close();
     }
