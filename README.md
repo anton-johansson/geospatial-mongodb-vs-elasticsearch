@@ -3,11 +3,6 @@
 Contains tools for performance testing geospatial indexing and querying using both MongoDB and Elasticsearch.
 
 
-## Setting up
+## Prerequisites
 
-First, we need instances of both MongoDB and Elasticsearch running locally. We do this using docker. So make sure docker is installed on the machine. Then execute the following commands:
-
-```shell
-docker run --detach --publish 27017:27017 --name performance-test-mongodb mongo
-docker run --detach --publish 9200:9200 --name performance-test-elasticsearch elasticsearch
-```
+The performance test utilizies ```docker``` to set up the various databases before it performs queries against them. Therefor, to be able to run the performance tests, make sure ```docker``` is installed on the local machine.

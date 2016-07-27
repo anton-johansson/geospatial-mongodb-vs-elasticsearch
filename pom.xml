@@ -19,6 +19,29 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+
+        <!-- Dependencies -->
+        <docker-client.version>5.0.2</docker-client.version>
     </properties>
+
+    <dependencies>
+        <!-- External libraries -->
+        <dependency>
+            <groupId>com.spotify</groupId>
+            <artifactId>docker-client</artifactId>
+            <version>${docker-client.version}</version>
+        </dependency>
+
+        <!-- Overrides -->
+        <!--
+            docker-client uses jersey-client 2.19. 2.22.1 solves an issue with hanging threads, see:
+            https://github.com/spotify/docker-client/issues/405
+        -->
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>2.22.2</version>
+        </dependency>
+    </dependencies>
 
 </project>
