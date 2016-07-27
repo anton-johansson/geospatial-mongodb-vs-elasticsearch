@@ -70,8 +70,8 @@ public class EntryPoint
             return;
         }
 
-        ITestable testable = getTestable(arguments.getTestName());
-        RandomGenerator random = getRandom(arguments);
+        ITestable testable = getTestable();
+        RandomGenerator random = getRandom();
 
         try (DockerManager manager = getDockerManager())
         {
@@ -94,21 +94,22 @@ public class EntryPoint
         stream.println(EXEC + parser.printExample(REQUIRED));
     }
 
-    private ITestable getTestable(String name)
+    private ITestable getTestable()
     {
+        String testName = arguments.getTestName();
         for (ITestable testable : TESTABLES)
         {
-            if (testable.getLabel().equalsIgnoreCase(name))
+            if (testable.getLabel().equalsIgnoreCase(testName))
             {
                 return testable;
             }
         }
 
-        error("Invalid \"--test-name\": " + name);
+        error("Invalid \"--test-name\": " + testName);
         return null;
     }
 
-    private RandomGenerator getRandom(ApplicationArguments arguments)
+    private RandomGenerator getRandom()
     {
         return arguments.getSeed()
                 .map(RandomGenerator::new)
