@@ -30,8 +30,6 @@ import com.spotify.docker.client.messages.PortBinding;
 public class TestRunner
 {
     private static final int SLEEP_TIME = 10000;
-    private static final int DOCUMENT_COUNT = 50;
-    private static final int QUERY_COUNT = 25;
 
     private final RandomGenerator random;
     private final DockerManager manager;
@@ -50,7 +48,7 @@ public class TestRunner
      * @param port The port to communicate with the database on.
      * @return Returns the details of the test.
      */
-    public TestDetails run(int port)
+    public TestDetails run(int port, int documentCount, int queryCount)
     {
         PortBinding from = PortBinding.of("", valueOf(port));
         String to = tester.getDockerExposedPort() + "/tcp";
@@ -76,8 +74,8 @@ public class TestRunner
             Collection<Long> addExecutionTimes = new ArrayList<>();
             Collection<Long> queryExecutionTimes = new ArrayList<>();
 
-            Collection<GeospatialDocument> documents = generateDocuments();
-            Collection<QueryInfo> queryInfos = generateQueryInfos();
+            Collection<GeospatialDocument> documents = generateDocuments(documentCount);
+            Collection<QueryInfo> queryInfos = generateQueryInfos(queryCount);
 
             // Add documents to the database
             System.out.println("Inserting documents...");
@@ -132,17 +130,17 @@ public class TestRunner
         return toPrimitive(array);
     }
 
-    private Collection<GeospatialDocument> generateDocuments()
+    private Collection<GeospatialDocument> generateDocuments(int documentCount)
     {
-        return range(0, DOCUMENT_COUNT)
+        return range(0, documentCount)
                 .boxed()
                 .map(this::generateDocument)
                 .collect(toList());
     }
 
-    private Collection<QueryInfo> generateQueryInfos()
+    private Collection<QueryInfo> generateQueryInfos(int queryCount)
     {
-        return range(0, QUERY_COUNT)
+        return range(0, queryCount)
                 .boxed()
                 .map(this::generateQueryInfo)
                 .collect(toList());

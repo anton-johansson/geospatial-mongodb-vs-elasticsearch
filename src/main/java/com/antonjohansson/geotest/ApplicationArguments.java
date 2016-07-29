@@ -12,6 +12,8 @@ import org.kohsuke.args4j.Option;
 public class ApplicationArguments
 {
     private static final int PORT_DEFAULT = 666;
+    private static final int DOCUMENT_COUNT_DEFAULT = 1000;
+    private static final int QUERY_COUNT_DEFAULT = 500;
 
     @Option(name = "--port", aliases = "-p", metaVar = "<port>", usage = "The port to run the database on. Useful if the default is busy.")
     private int port = PORT_DEFAULT;
@@ -25,6 +27,14 @@ public class ApplicationArguments
     @Option(name = "--seed", aliases = "-s", metaVar = "<seed>", usage = "The seed for the random generator. If absent, a seed based on the "
         + "current time will be used. A constant seed is useful for consistency over multiple tests.")
     private Long seed;
+
+    @Option(name = "--document-count", aliases = "-d", metaVar = "<document count>", usage = "Specifies the number of documents that will be "
+        + "added to the database. Higher value give higher precision results.")
+    private int documentCount = DOCUMENT_COUNT_DEFAULT;
+
+    @Option(name = "--query-count", aliases = "-q", metaVar = "<query count>", usage = "Specifies the number of queries that will be executed. "
+        + "Higher value give higher precision results.")
+    private int queryCount = QUERY_COUNT_DEFAULT;
 
     public int getPort()
     {
@@ -64,5 +74,25 @@ public class ApplicationArguments
     public void setSeed(long seed)
     {
         this.seed = seed;
+    }
+
+    public int getDocumentCount()
+    {
+        return documentCount;
+    }
+
+    public void setDocumentCount(int documentCount)
+    {
+        this.documentCount = documentCount;
+    }
+
+    public int getQueryCount()
+    {
+        return queryCount;
+    }
+
+    public void setQueryCount(int queryCount)
+    {
+        this.queryCount = queryCount;
     }
 }

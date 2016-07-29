@@ -81,7 +81,10 @@ public class EntryPoint
             System.out.println("Running '" + testable.getLabel() + "'.");
 
             TestRunner runner = new TestRunner(random, manager, testable);
-            TestDetails details = runner.run(arguments.getPort());
+            TestDetails details = runner.run(
+                    arguments.getPort(),
+                    arguments.getDocumentCount(),
+                    arguments.getQueryCount());
 
             System.out.println("---------------------------");
             System.out.println("--        Details        --");
