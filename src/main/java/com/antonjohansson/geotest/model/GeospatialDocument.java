@@ -10,10 +10,21 @@ import com.antonjohansson.geotest.utils.DateUtils;
  */
 public class GeospatialDocument
 {
+    private int id;
     private BigDecimal longitude = BigDecimal.ZERO;
     private BigDecimal latitude = BigDecimal.ZERO;
     private ZonedDateTime creationDate = DateUtils.now();
     private String value = "";
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
+    }
 
     public BigDecimal getLongitude()
     {

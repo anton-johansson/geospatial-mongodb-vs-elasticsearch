@@ -1,6 +1,8 @@
 package com.antonjohansson.geotest;
 
+import static java.lang.String.valueOf;
 import static java.util.Arrays.asList;
+import static org.apache.commons.lang.StringUtils.leftPad;
 import static org.kohsuke.args4j.OptionHandlerFilter.REQUIRED;
 
 import java.io.PrintStream;
@@ -21,6 +23,7 @@ import com.antonjohansson.geotest.utils.RandomGenerator;
 public class EntryPoint
 {
     private static final String EXEC = "java geospatial-mongodb-vs-elasticsearch.jar";
+    private static final int PAD = 4;
     private static final Collection<? extends ITestable> TESTABLES = asList(new Elasticsearch());
 
     private final ApplicationArguments arguments;
@@ -80,9 +83,21 @@ public class EntryPoint
             TestRunner runner = new TestRunner(random, manager, testable);
             TestDetails details = runner.run(arguments.getPort());
 
-            System.out.println("Details:");
-            System.out.println(details);
+            System.out.println("---------------------------");
+            System.out.println("--        Details        --");
+            System.out.println("---------------------------");
+            System.out.println("Average add time:   " + ms(details.getAverageAddTime()));
+            System.out.println("Max add time:       " + ms(details.getMaxAddTime()));
+            System.out.println("Min add time:       " + ms(details.getMinAddTime()));
+            System.out.println("Average query time: " + ms(details.getAverageQueryTime()));
+            System.out.println("Max query time:     " + ms(details.getMaxQueryTime()));
+            System.out.println("Min query time:     " + ms(details.getMinQueryTime()));
         }
+    }
+
+    private String ms(long milliseconds)
+    {
+        return leftPad(valueOf(milliseconds), PAD) + " ms";
     }
 
     private void help(PrintStream stream)

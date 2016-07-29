@@ -1,0 +1,36 @@
+{
+  "query": {
+    "filtered": {
+      "filter": {
+        "geo_distance": {
+          "distance": "10000km",
+          "location": {
+            "lat": 0,
+            "lon": 0
+          }
+        }
+      },
+      "query": {
+        "function_score": {
+          "functions": [
+            {
+              "gauss": {
+                "location": {
+                  "origin": {
+                    "lat": 0,
+                    "lon": 0
+                  },
+                  "offset": "5000km",
+                  "scale": "5000km"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "sort": {
+    "_score": "desc"
+  }
+}

@@ -24,7 +24,9 @@
 
         <!-- Dependencies -->
         <args4j.version>2.33</args4j.version>
+        <commons-io.version>2.5</commons-io.version>
         <docker-client.version>5.0.2</docker-client.version>
+        <gson.version>2.7</gson.version>
     </properties>
 
     <dependencies>
@@ -35,9 +37,19 @@
             <version>${args4j.version}</version>
         </dependency>
         <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.spotify</groupId>
             <artifactId>docker-client</artifactId>
             <version>${docker-client.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${gson.version}</version>
         </dependency>
 
         <!-- Overrides -->
