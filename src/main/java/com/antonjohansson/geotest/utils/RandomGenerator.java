@@ -90,7 +90,7 @@ public class RandomGenerator
     public ZonedDateTime getCreationDate()
     {
         int milliseconds = random.nextInt(TWO_WEEKS_IN_MILLISECONDS);
-        return DateUtils.now().plus(-milliseconds, MILLIS);
+        return DateUtils.nowWithoutTime().plus(-milliseconds, MILLIS);
     }
 
     /**

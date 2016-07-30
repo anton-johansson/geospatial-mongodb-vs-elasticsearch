@@ -2,6 +2,7 @@ package com.antonjohansson.geotest.utils;
 
 import static java.time.ZoneOffset.UTC;
 
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
 /**
@@ -22,5 +23,15 @@ public final class DateUtils
     public static ZonedDateTime now()
     {
         return ZonedDateTime.now(UTC);
+    }
+
+    /**
+     * Gets the current date (without time), in UTC.
+     *
+     * @return Returns the current date.
+     */
+    public static ZonedDateTime nowWithoutTime()
+    {
+        return now().toLocalDate().atStartOfDay(ZoneOffset.UTC);
     }
 }
