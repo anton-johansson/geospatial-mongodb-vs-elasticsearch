@@ -6,6 +6,7 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.IntStream.range;
 import static org.apache.commons.lang.ArrayUtils.toPrimitive;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -30,6 +31,7 @@ import com.spotify.docker.client.messages.PortBinding;
 public class TestRunner
 {
     private static final int SLEEP_TIME = 10000;
+    private static final int EARTH_RADIUS_IN_METER = 6371000;
 
     private final RandomGenerator random;
     private final DockerManager manager;
@@ -102,6 +104,9 @@ public class TestRunner
                 queryExecutionTimes.add(time);
             }
 
+            System.out.println("Calculating distances...");
+            results.forEach(this::calculateDistances);
+
             System.out.println("Done!");
 
             long averageAddTime = (long) LongStream.of(toArray(addExecutionTimes)).average().orElseThrow(() -> new IllegalStateException("expected values"));
@@ -125,6 +130,44 @@ public class TestRunner
         {
             throw new RuntimeException(e);
         }
+    }
+
+    private void calculateDistances(QueryResult result)
+    {
+        BigDecimal longitude1 = result.getLongitude();
+        BigDecimal latitude1 = result.getLatitude();
+
+        for (GeospatialDocument document : result.getDocuments())
+        {
+            BigDecimal longitude2 = document.getLongitude();
+            BigDecimal latitude2 = document.getLatitude();
+
+            BigDecimal distance = distanceBetween(
+                    latitude1.floatValue(),
+                    longitude1.floatValue(),
+                    latitude2.floatValue(),
+                    longitude2.floatValue());
+
+            document.setDistance(distance);
+        }
+    }
+
+    /**
+     * Calculates the distance between two coordinates.
+     * <p>
+     * See <a href="http://stackoverflow.com/questions/837872/calculate-distance-in-meters-when-you-know-longitude-and-latitude-in-java">Stack Overflow</a>.
+     */
+    private BigDecimal distanceBetween(float latitude1, float longitude1, float latitude2, float longitude2)
+    {
+        double dLatitude = Math.toRadians(latitude2 - latitude1);
+        double dLongitude = Math.toRadians(longitude2 - longitude1);
+        double a = Math.sin(dLatitude / 2) * Math.sin(dLatitude / 2)
+                + Math.cos(Math.toRadians(latitude1)) * Math.cos(Math.toRadians(latitude2))
+                * Math.sin(dLongitude / 2) * Math.sin(dLongitude / 2);
+
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        float distance = (float) (EARTH_RADIUS_IN_METER * c);
+        return new BigDecimal(distance);
     }
 
     private long[] toArray(Collection<Long> collection)

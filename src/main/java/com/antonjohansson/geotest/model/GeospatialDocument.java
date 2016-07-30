@@ -15,6 +15,7 @@ public class GeospatialDocument
     private BigDecimal latitude = BigDecimal.ZERO;
     private ZonedDateTime creationDate = DateUtils.now();
     private String value = "";
+    private BigDecimal distance = BigDecimal.ZERO;
 
     public int getId()
     {
@@ -64,5 +65,15 @@ public class GeospatialDocument
     public void setValue(String value)
     {
         this.value = value;
+    }
+
+    public BigDecimal getDistance()
+    {
+        return distance;
+    }
+
+    public void setDistance(BigDecimal distance)
+    {
+        this.distance = distance;
     }
 }
