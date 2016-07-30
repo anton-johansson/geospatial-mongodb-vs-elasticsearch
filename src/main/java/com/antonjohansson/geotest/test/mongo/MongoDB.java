@@ -107,8 +107,7 @@ public class MongoDB implements ITestable
 
         QueryResult result = new QueryResult();
         result.setDocuments(documents);
-
-        return new QueryResult();
+        return result;
     }
 
     private GeospatialDocument getDocument(BasicDBObject object)
