@@ -1,11 +1,16 @@
 package com.antonjohansson.geotest.test.elasticsearch;
 
+import static com.antonjohansson.geotest.utils.RandomGenerator.COORDINATE_SCALE;
+import static java.math.RoundingMode.HALF_UP;
 import static java.util.stream.Collectors.toList;
 import static org.apache.http.util.EntityUtils.consumeQuietly;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -172,7 +177,7 @@ public class Elasticsearch implements ITestable
             response = client.execute(request);
             HttpEntity entity = response.getEntity();
             String string = EntityUtils.toString(entity);
-            ElasticsearchSearchResult<GeospatialDocument> result = GSON.fromJson(string, new TypeToken<ElasticsearchSearchResult<GeospatialDocument>>()
+            ElasticsearchSearchResult<Map<String, Object>> result = GSON.fromJson(string, new TypeToken<ElasticsearchSearchResult<Map<String, Object>>>()
             {
             }.getType());
 
@@ -199,10 +204,24 @@ public class Elasticsearch implements ITestable
         }
     }
 
-    private GeospatialDocument getDocumentFromResult(ElasticsearchSearchHit<GeospatialDocument> result)
+    @SuppressWarnings("unchecked")
+    private GeospatialDocument getDocumentFromResult(ElasticsearchSearchHit<Map<String, Object>> result)
     {
-        GeospatialDocument document = result.getSource();
+        Map<String, Object> source = result.getSource();
+        String value = (String) source.get("value");
+        double creationDateDouble = (double) source.get("creationDate");
+        long creationDateLong = (long) creationDateDouble;
+        ZonedDateTime creationDate = ZonedDateTime.ofInstant(Instant.ofEpochMilli(creationDateLong), ZoneOffset.UTC);
+        Map<String, Object> location = (Map<String, Object>) source.get("location");
+        BigDecimal longitude = new BigDecimal((double) location.get("lon")).setScale(COORDINATE_SCALE, HALF_UP);
+        BigDecimal latitude = new BigDecimal((double) location.get("lat")).setScale(COORDINATE_SCALE, HALF_UP);
+
+        GeospatialDocument document = new GeospatialDocument();
         document.setId(Integer.valueOf(result.getId()));
+        document.setValue(value);
+        document.setCreationDate(creationDate);
+        document.setLongitude(longitude);
+        document.setLatitude(latitude);
         return document;
     }
 
