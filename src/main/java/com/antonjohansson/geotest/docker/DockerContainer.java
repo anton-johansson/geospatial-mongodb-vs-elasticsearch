@@ -1,5 +1,7 @@
 package com.antonjohansson.geotest.docker;
 
+import static com.spotify.docker.client.DockerClient.RemoveContainerParam.removeVolumes;
+
 import com.spotify.docker.client.DockerClient;
 import com.spotify.docker.client.exceptions.DockerException;
 import com.spotify.docker.client.messages.ContainerInfo;
@@ -39,7 +41,7 @@ public class DockerContainer implements AutoCloseable
             {
                 client.killContainer(containerId);
             }
-            client.removeContainer(containerId);
+            client.removeContainer(containerId, removeVolumes());
         }
         catch (DockerException | InterruptedException e)
         {
