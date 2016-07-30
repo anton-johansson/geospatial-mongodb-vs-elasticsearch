@@ -3,7 +3,7 @@
     "filtered": {
       "filter": {
         "geo_distance": {
-          "distance": "10000km",
+          "distance": "5000km",
           "location": {
             "lat": [latitude],
             "lon": [longitude]
@@ -20,7 +20,6 @@
                     "lat": [latitude],
                     "lon": [longitude]
                   },
-                  "offset": "5000km",
                   "scale": "5000km"
                 }
               }
