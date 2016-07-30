@@ -95,6 +95,8 @@ public class TestRunner
                 long start = System.currentTimeMillis();
                 QueryResult result = tester.query(info, port);
                 result.setQueryId(info.getQueryId());
+                result.setLongitude(info.getLongitude());
+                result.setLatitude(info.getLatitude());
                 results.add(result);
                 long time = System.currentTimeMillis() - start;
                 queryExecutionTimes.add(time);
