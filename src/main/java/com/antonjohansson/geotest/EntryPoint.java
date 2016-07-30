@@ -15,6 +15,7 @@ import com.antonjohansson.geotest.docker.DockerManager;
 import com.antonjohansson.geotest.model.TestDetails;
 import com.antonjohansson.geotest.test.elasticsearch.Elasticsearch;
 import com.antonjohansson.geotest.test.framework.ITestable;
+import com.antonjohansson.geotest.test.mongo.MongoDB;
 import com.antonjohansson.geotest.utils.RandomGenerator;
 
 /**
@@ -24,7 +25,7 @@ public class EntryPoint
 {
     private static final String EXEC = "java geospatial-mongodb-vs-elasticsearch.jar";
     private static final int PAD = 4;
-    private static final Collection<? extends ITestable> TESTABLES = asList(new Elasticsearch());
+    private static final Collection<? extends ITestable> TESTABLES = asList(new Elasticsearch(), new MongoDB());
 
     private final ApplicationArguments arguments;
     private final CmdLineParser parser;

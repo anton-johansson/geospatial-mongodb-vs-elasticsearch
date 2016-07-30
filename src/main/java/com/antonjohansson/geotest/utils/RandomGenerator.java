@@ -12,7 +12,7 @@ import java.util.Random;
  */
 public class RandomGenerator
 {
-    private static final int COORDINATE_SCALE = 7;
+    public static final int COORDINATE_SCALE = 7;
     private static final BigDecimal LONGITUDE_BOUNDARY = new BigDecimal(180);
     private static final BigDecimal LATITUDE_BOUNDARY = new BigDecimal(90);
     private static final BigDecimal MULTIPLIER = new BigDecimal(2);
