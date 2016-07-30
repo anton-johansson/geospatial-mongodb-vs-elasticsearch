@@ -5,8 +5,8 @@
         "geo_distance": {
           "distance": "10000km",
           "location": {
-            "lat": 0,
-            "lon": 0
+            "lat": [latitude],
+            "lon": [longitude]
           }
         }
       },
@@ -17,8 +17,8 @@
               "gauss": {
                 "location": {
                   "origin": {
-                    "lat": 0,
-                    "lon": 0
+                    "lat": [latitude],
+                    "lon": [longitude]
                   },
                   "offset": "5000km",
                   "scale": "5000km"

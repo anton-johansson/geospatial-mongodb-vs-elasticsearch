@@ -162,9 +162,13 @@ public class Elasticsearch implements ITestable
         HttpClient client = getClient();
         HttpPost request = new HttpPost("http://localhost:" + port + "/myindex/mytype/_search");
 
+        String query = QUERY
+                .replace("[longitude]", info.getLongitude().toString())
+                .replace("[latitude]", info.getLatitude().toString());
+
         try
         {
-            request.setEntity(new StringEntity(QUERY));
+            request.setEntity(new StringEntity(query));
         }
         catch (UnsupportedEncodingException e)
         {

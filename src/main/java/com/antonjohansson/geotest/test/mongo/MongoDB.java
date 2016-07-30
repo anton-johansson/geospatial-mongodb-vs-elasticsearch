@@ -84,7 +84,7 @@ public class MongoDB implements ITestable
     {
         MongoCollection<BasicDBObject> collection = getCollection(port);
 
-        double[] coordinates = new double[] {0.00, 0.00};
+        double[] coordinates = new double[] {info.getLongitude().doubleValue(), info.getLatitude().doubleValue()};
 
         BasicDBObject geometry = new BasicDBObject();
         geometry.put("type", "Point");
