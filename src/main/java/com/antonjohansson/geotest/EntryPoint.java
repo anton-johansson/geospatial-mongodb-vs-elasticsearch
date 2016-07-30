@@ -2,10 +2,14 @@ package com.antonjohansson.geotest;
 
 import static java.lang.String.valueOf;
 import static java.util.Arrays.asList;
+import static org.apache.commons.io.FileUtils.writeStringToFile;
 import static org.apache.commons.lang.StringUtils.leftPad;
 import static org.kohsuke.args4j.OptionHandlerFilter.REQUIRED;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.time.ZonedDateTime;
 import java.util.Collection;
 
 import org.kohsuke.args4j.CmdLineException;
@@ -16,7 +20,10 @@ import com.antonjohansson.geotest.model.TestDetails;
 import com.antonjohansson.geotest.test.elasticsearch.Elasticsearch;
 import com.antonjohansson.geotest.test.framework.ITestable;
 import com.antonjohansson.geotest.test.mongo.MongoDB;
+import com.antonjohansson.geotest.utils.GsonHelper;
 import com.antonjohansson.geotest.utils.RandomGenerator;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  * Contains the applications main entry-point.
@@ -96,6 +103,21 @@ public class EntryPoint
             System.out.println("Average query time: " + ms(details.getAverageQueryTime()));
             System.out.println("Max query time:     " + ms(details.getMaxQueryTime()));
             System.out.println("Min query time:     " + ms(details.getMinQueryTime()));
+            System.out.println("---------------------------");
+
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(ZonedDateTime.class, GsonHelper.ZDT_SERIALIZER)
+                    .setPrettyPrinting()
+                    .create();
+
+            String resultsJSON = gson.toJson(details.getResults());
+            File resultsFile = new File("target/results.json");
+            writeStringToFile(resultsFile, resultsJSON, "UTF-8");
+            System.out.println("Wrote results to '" + resultsFile + "'.");
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
         }
     }
 

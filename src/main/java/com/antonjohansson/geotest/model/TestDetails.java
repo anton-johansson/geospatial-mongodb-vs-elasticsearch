@@ -1,5 +1,9 @@
 package com.antonjohansson.geotest.model;
 
+import static java.util.Collections.emptyList;
+
+import java.util.List;
+
 /**
  * Defines details of a test execution.
  */
@@ -12,6 +16,7 @@ public class TestDetails
     private long averageQueryTime;
     private long maxQueryTime;
     private long minQueryTime;
+    private List<QueryResult> results = emptyList();
 
     public long getTotalExecutionTime()
     {
@@ -81,5 +86,15 @@ public class TestDetails
     public void setMinQueryTime(long minQueryTime)
     {
         this.minQueryTime = minQueryTime;
+    }
+
+    public List<QueryResult> getResults()
+    {
+        return results;
+    }
+
+    public void setResults(List<QueryResult> results)
+    {
+        this.results = results;
     }
 }

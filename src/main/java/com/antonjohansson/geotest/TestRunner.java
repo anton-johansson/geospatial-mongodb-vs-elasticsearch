@@ -116,6 +116,7 @@ public class TestRunner
             testDetails.setAverageQueryTime(averageQueryTime);
             testDetails.setMaxQueryTime(maxQueryTime);
             testDetails.setMinQueryTime(minQueryTime);
+            testDetails.setResults(results);
             return testDetails;
         }
         catch (InterruptedException e)

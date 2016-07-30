@@ -6,8 +6,10 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializer;
 
 /**
  * Helps with GSON stuff.
@@ -40,5 +42,12 @@ public class GsonHelper
             throw new JsonParseException("Unable to parse ZonedDateTime", e);
         }
         throw new JsonParseException("Unable to parse ZonedDateTime");
+    };
+
+    /** A serlializer for {@link ZonedDateTime} that serializes to a UTC string. */
+    public static final JsonSerializer<ZonedDateTime> ZDT_SERIALIZER = (src, typeOfSrc, context) ->
+    {
+        JsonElement element = new JsonPrimitive(src.toString());
+        return element;
     };
 }
